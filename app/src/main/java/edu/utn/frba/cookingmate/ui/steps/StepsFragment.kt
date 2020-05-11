@@ -1,5 +1,6 @@
 package edu.utn.frba.cookingmate.ui.steps
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +20,8 @@ class StepsFragment(val recipe: Recipe) : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        stepsTitle.text = recipe.name
+        stepsVideo.setVideoURI(Uri.parse("android.resource://" + activity!!.packageName + "/" + R.raw.foo))
+        stepsVideo.start()
     }
 
     override fun onCreateView(
