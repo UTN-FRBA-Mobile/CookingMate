@@ -2,4 +2,6 @@
     <string name="app_name">cookingMate</string>
 
     <string name="view_recipe">Ver receta</string>
+    <string name="view_ingredients">Ingredientes</string>
+    <string name="description">DESCRIPTION</string>
 </resources>

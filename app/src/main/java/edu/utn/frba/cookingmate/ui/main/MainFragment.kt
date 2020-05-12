@@ -37,9 +37,24 @@ class MainFragment : Fragment() {
 
         val myDataset =
             mutableListOf(
-                Recipe("id2", "recipe 2"),
-                Recipe("id1", "recipe lean"),
-                Recipe("id3", "recipe 3")
+                Recipe(
+                    "id2",
+                    "Chocotorta",
+                    "https://nitrocdn.com/UAvWdfoTcwEcpuKzJJEHxyeFHHtyYDjU/assets/static/source/rev-5a34344/wp-content/uploads/2017/06/vanilla-cake-4.jpg",
+                    listOf("2 Paquetes de chocolinas", "1 Kilogramo de dulce de leche", "1 kilogramo de queso crema", "1 taza de leche")
+                ),
+                Recipe(
+                    "id1",
+                    "Torta Rogel",
+                    "https://nitrocdn.com/UAvWdfoTcwEcpuKzJJEHxyeFHHtyYDjU/assets/static/source/rev-5a34344/wp-content/uploads/2016/04/cookie_dough_chocolate_cake-2.jpg",
+                    listOf()
+                ),
+                Recipe(
+                    "id3",
+                    "Pastafrola",
+                    "https://nitrocdn.com/UAvWdfoTcwEcpuKzJJEHxyeFHHtyYDjU/assets/static/source/rev-5a34344/wp-content/uploads/2018/01/french-silk-pie-cake-3.jpg",
+                    listOf()
+                )
             )
 
         val viewManager = LinearLayoutManager(this.context)
