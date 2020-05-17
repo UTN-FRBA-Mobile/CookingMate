@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Story
+import edu.utn.frba.cookingmate.ui.stories.StoriesFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -41,24 +44,83 @@ class MainFragment : Fragment() {
                     "id2",
                     "Chocotorta",
                     "https://nitrocdn.com/UAvWdfoTcwEcpuKzJJEHxyeFHHtyYDjU/assets/static/source/rev-5a34344/wp-content/uploads/2017/06/vanilla-cake-4.jpg",
-                    listOf("2 Paquetes de chocolinas", "1 Kilogramo de dulce de leche", "1 kilogramo de queso crema", "1 taza de leche")
+                    listOf(
+                        "2 Paquetes de chocolinas",
+                        "1 Kilogramo de dulce de leche",
+                        "1 kilogramo de queso crema",
+                        "1 taza de leche"
+                    ),
+                    mutableListOf(
+                        Story(
+                            "id11",
+                            "Leandr0",
+                            "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=625&q=80"
+                        ),
+                        Story(
+                            "id12",
+                            "guille",
+                            "https://images.unsplash.com/flagged/photo-1561350117-501b4661f8d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id13",
+                            "joaco",
+                            "https://images.unsplash.com/photo-1566554273541-37a9ca77b91f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        )
+                    )
                 ),
                 Recipe(
                     "id1",
                     "Torta Rogel",
                     "https://nitrocdn.com/UAvWdfoTcwEcpuKzJJEHxyeFHHtyYDjU/assets/static/source/rev-5a34344/wp-content/uploads/2016/04/cookie_dough_chocolate_cake-2.jpg",
-                    listOf()
+                    listOf(),
+                    mutableListOf(
+                        Story(
+                            "id14",
+                            "j04c0",
+                            "https://images.unsplash.com/photo-1574966740429-6158cb530208?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id15",
+                            "guishe",
+                            "https://images.unsplash.com/photo-1518148750009-25b2522df9c2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        )
+                    )
                 ),
                 Recipe(
                     "id3",
                     "Pastafrola",
                     "https://nitrocdn.com/UAvWdfoTcwEcpuKzJJEHxyeFHHtyYDjU/assets/static/source/rev-5a34344/wp-content/uploads/2018/01/french-silk-pie-cake-3.jpg",
-                    listOf()
+                    listOf(),
+                    mutableListOf(
+                        Story(
+                            "id16",
+                            "xxxxxxxx",
+                            "https://images.unsplash.com/photo-1502364271109-0a9a75a2a9df?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id17",
+                            "wwwwwww",
+                            "https://images.unsplash.com/photo-1542834291-c514e77b215f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id18",
+                            "qweqweqe",
+                            "https://images.unsplash.com/photo-1552302894-3b4f7275229c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        )
+                    )
                 )
             )
 
         val viewManager = LinearLayoutManager(this.context)
-        val viewAdapter = RecipesAdapter(myDataset) { listener!!.onViewRecipeSteps(it) }
+        val viewAdapter = RecipesAdapter(
+            myDataset,
+            { listener!!.onViewRecipeSteps(it) },
+            { fragmentContainer: View, recipe: Recipe ->
+                parentFragmentManager.beginTransaction().replace(
+                    fragmentContainer.id,
+                    StoriesThumbnailFragment.newInstance(recipe)
+                ).commit()
+            })
 
         recyclerView = feedRecycler.apply {
             setHasFixedSize(true)

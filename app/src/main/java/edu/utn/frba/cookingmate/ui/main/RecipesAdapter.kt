@@ -9,19 +9,19 @@ import com.bumptech.glide.load.resource.bitmap.*
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.viewmodels.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_recipe.view.*
 
-
 class RecipesAdapter(
-    private val myDataset: MutableList<Recipe>,
-    private val onClickViewStepsListener: (Recipe) -> Unit
+    private val recipes: List<Recipe>,
+    private val onClickViewStepsListener: (Recipe) -> Unit,
+    private val showStoriesFragment: (View, Recipe) -> Unit
 ) :
     RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
-    class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+    private lateinit var recipeViewModels: Map<String, RecipeViewModel>
 
-    // TODO this hould be per recipe
-    private var showingIngredients: Boolean = false
+    class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -30,34 +30,50 @@ class RecipesAdapter(
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.fragment_recipe, parent, false)
 
+        recipeViewModels = recipes.map { recipe ->
+            recipe.id to
+                    RecipeViewModel(
+                        recipe,
+                        false
+                    )
+        }.toMap()
+
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val recipe = myDataset[position]
+        val recipeViewModel = recipeViewModels.entries.toList()[position].value // TODO improve
         val view = holder.view
 
-        view.recipeName.text = recipe.name
-        view.viewRecipe.setOnClickListener { onClickViewStepsListener(recipe) }
+        view.recipeName.text = recipeViewModel.recipe.name
+        view.viewRecipe.setOnClickListener { onClickViewStepsListener(recipeViewModel.recipe) }
         var requestOptions = RequestOptions()
         requestOptions = requestOptions.transforms(CenterCrop())
 
         Glide.with(view)
-            .load(recipe.imageLink)
+            .load(recipeViewModel.recipe.imageLink)
             .apply(requestOptions)
             .into(holder.view.recipeImage)
 
-        view.recipeIngredients.text = recipe.ingredientes.joinToString("\n")
-        view.viewIngredients.setOnClickListener { toggleIngredients(view, recipe) }
+        view.recipeIngredients.text = recipeViewModel.recipe.ingredientes.joinToString("\n")
+        view.viewIngredients.setOnClickListener {
+            toggleIngredients(
+                recipeViewModel.recipe.id,
+                view
+            )
+        }
         view.recipeIngredients.visibility = View.INVISIBLE
+
+        showStoriesFragment(view.fragmentRecipeStoriesThumbnailContainer, recipeViewModel.recipe)
     }
 
-    override fun getItemCount() = myDataset.size
+    override fun getItemCount() = recipes.size
 
-    private fun toggleIngredients(view: View, recipe: Recipe) {
-        showingIngredients = !showingIngredients
+    private fun toggleIngredients(recipeId: String, view: View) {
+        val recipeViewModel = recipeViewModels.get(recipeId) // TODO improve
+        recipeViewModel!!.ingredientsVisible = !recipeViewModel.ingredientsVisible
 
-        if (showingIngredients) {
+        if (recipeViewModel.ingredientsVisible) {
             view.recipeImage.imageAlpha = 100
             view.recipeIngredients.visibility = View.VISIBLE
         } else {

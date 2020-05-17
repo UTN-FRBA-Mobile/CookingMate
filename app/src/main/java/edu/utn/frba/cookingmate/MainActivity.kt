@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.ui.main.MainFragment
 import edu.utn.frba.cookingmate.ui.steps.StepsFragment
 
@@ -37,4 +38,8 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         supportFragmentManager.beginTransaction().remove(mainFragment)
             .add(R.id.container, stepsFragment).commitNow()
     }
+
+//    override fun onViewRecipeStories(recipeStories: List<Story>, startFromId: String) {
+//
+//    }
 }

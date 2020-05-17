@@ -7,13 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 
 import edu.utn.frba.cookingmate.R
+import edu.utn.frba.cookingmate.models.Recipe
 
-class StoriesFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {}
-    }
-
+class StoriesFragment(val recipe: Recipe) : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -24,9 +20,7 @@ class StoriesFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            StoriesFragment().apply {
-                arguments = Bundle().apply {}
-            }
+        fun newInstance(recipe: Recipe) =
+            StoriesFragment(recipe)
     }
 }
