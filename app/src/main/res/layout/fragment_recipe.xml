@@ -51,7 +51,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/darkGray"
+        android:background="#371C05"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="4dp"
@@ -68,7 +68,7 @@
             android:text="@string/view_ingredients"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
-            android:textStyle="italic" />
+            android:textStyle="normal" />
 
         <TextView
             android:id="@+id/viewRecipe"

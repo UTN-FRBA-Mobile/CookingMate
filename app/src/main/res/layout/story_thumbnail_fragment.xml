@@ -15,9 +15,12 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_gravity="center"
+            android:layout_marginTop="10dp"
             android:background="@android:color/black"
+            android:baselineAlignBottom="false"
             android:contentDescription="@string/description"
-            android:padding="1dp" />
+            android:padding="1dp"
+            android:paddingTop="2dp" />
 
         <TextView
             android:id="@+id/authorName"
@@ -27,7 +30,8 @@
             android:padding="4dp"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:textStyle="italic"
+            android:textSize="10sp"
+            android:typeface="sans"
             tools:text="author" />
     </LinearLayout>
 </FrameLayout>
