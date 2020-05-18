@@ -5,9 +5,34 @@
     android:layout_height="match_parent"
     tools:context=".ui.steps.StepsFragment">
 
-    <TextView
-        android:id="@+id/stepsTitle"
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/replay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:background="@drawable/ic_replay_orange_24dp"
+            android:visibility="invisible" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/story"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_linked_camera_orange_24dp"
+            android:visibility="invisible" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:background="@drawable/ic_skip_next_orange_24dp"
+            android:visibility="invisible" />
+    </com.google.android.exoplayer2.ui.PlayerView>
 
 </FrameLayout>

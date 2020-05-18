@@ -4,4 +4,5 @@
     <string name="view_recipe">Ver receta</string>
     <string name="view_ingredients">Ingredientes</string>
     <string name="description">DESCRIPTION</string>
+    <string name="media_url_hls"><![CDATA[https://raw.githubusercontent.com/UTN-FRBA-Mobile/CookingMate/recipesFiles/recipes/1/steps/0/index.m3u8]]></string>
 </resources>
