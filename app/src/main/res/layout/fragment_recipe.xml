@@ -15,12 +15,12 @@
         android:id="@+id/recipeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="#EDEDED"
         android:drawableTop="@color/colorPrimary"
         android:fontFamily="@font/muli_bold"
         android:padding="7dp"
         android:textAlignment="center"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorAccent"
         android:textSize="25sp"
         tools:text="Alguna torta" />
 
@@ -51,7 +51,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#371C05"
+        android:background="#202020"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingTop="4dp"
