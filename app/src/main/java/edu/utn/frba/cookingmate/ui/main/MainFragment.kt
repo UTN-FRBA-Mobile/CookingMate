@@ -83,6 +83,31 @@ class MainFragment : Fragment() {
                             "id15",
                             "guishe",
                             "https://images.unsplash.com/photo-1518148750009-25b2522df9c2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id11",
+                            "Leandr0",
+                            "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=625&q=80"
+                        ),
+                        Story(
+                            "id111",
+                            "Braian",
+                            "https://images.unsplash.com/photo-1562775897-0e19642acd57?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id101",
+                            "Ana",
+                            "https://images.unsplash.com/photo-1565608087341-404b25492fee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+                        ),
+                        Story(
+                            "id110",
+                            "Rocio",
+                            "https://images.unsplash.com/photo-1563233558-0015df629653?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
+                        ),
+                        Story(
+                            "id102",
+                            "Pedro",
+                            "https://images.unsplash.com/photo-1518148750009-25b2522df9c2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
                         )
                     )
                 ),
