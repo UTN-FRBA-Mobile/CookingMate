@@ -47,12 +47,10 @@ class RecipesAdapter(
 
         view.recipeName.text = recipeViewModel.recipe.name
         view.viewRecipe.setOnClickListener { onClickViewStepsListener(recipeViewModel.recipe) }
-        var requestOptions = RequestOptions()
-        requestOptions = requestOptions.transforms(CenterCrop())
 
         Glide.with(view)
             .load(recipeViewModel.recipe.imageLink)
-            .apply(requestOptions)
+            .apply(RequestOptions().transforms(CenterCrop()))
             .into(holder.view.recipeImage)
 
         view.recipeIngredients.text = recipeViewModel.recipe.ingredientes.joinToString("\n")
@@ -70,7 +68,7 @@ class RecipesAdapter(
     override fun getItemCount() = recipes.size
 
     private fun toggleIngredients(recipeId: String, view: View) {
-        val recipeViewModel = recipeViewModels.get(recipeId) // TODO improve
+        val recipeViewModel = recipeViewModels[recipeId] // TODO improve
         recipeViewModel!!.ingredientsVisible = !recipeViewModel.ingredientsVisible
 
         if (recipeViewModel.ingredientsVisible) {

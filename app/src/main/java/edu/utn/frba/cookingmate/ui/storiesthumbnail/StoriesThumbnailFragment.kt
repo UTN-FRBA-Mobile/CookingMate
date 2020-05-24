@@ -1,27 +1,27 @@
-package edu.utn.frba.cookingmate.ui.main
+package edu.utn.frba.cookingmate.ui.storiesthumbnail
 
-import android.graphics.drawable.GradientDrawable
-import androidx.lifecycle.ViewModelProviders
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
 import kotlinx.android.synthetic.main.stories_thumbnail_fragment.*
 
 class StoriesThumbnailFragment(private val recipe: Recipe) : Fragment() {
+    private var listener: OnFragmentInteractionListener? = null
     private lateinit var recipeStoriesThumbnailRecyclerView: RecyclerView
 
     companion object {
-        fun newInstance(recipe: Recipe) = StoriesThumbnailFragment(recipe)
+        fun newInstance(recipe: Recipe) =
+            StoriesThumbnailFragment(
+                recipe
+            )
     }
-
-    private lateinit var viewModel: StoriesThumbnailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,12 +32,14 @@ class StoriesThumbnailFragment(private val recipe: Recipe) : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(StoriesThumbnailViewModel::class.java)
-        // TODO: Use the ViewModel
 
         val viewManager =
             LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
-        val viewAdapter = RecipeStoriesThumbnailAdapter(recipe.stories)
+        val viewAdapter =
+            StoriesThumbnailAdapter(
+                recipe,
+                { listener!!.onViewRecipeStories(it) }
+            )
 
         recipeStoriesThumbnailRecyclerView = recipeStoriesThumbnailRecycler.apply {
             setHasFixedSize(false)
@@ -45,5 +47,23 @@ class StoriesThumbnailFragment(private val recipe: Recipe) : Fragment() {
             adapter = viewAdapter
         }
 
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is OnFragmentInteractionListener) {
+            listener = context
+        } else {
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        listener = null
+    }
+
+    interface OnFragmentInteractionListener {
+        fun onViewRecipeStories(recipe: Recipe)
     }
 }

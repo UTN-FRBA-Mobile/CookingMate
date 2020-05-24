@@ -45,7 +45,9 @@
             android:layout_centerInParent="true"
             android:singleLine="false"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/colorPrimary"
+            android:lineHeight="30sp"
+            android:textSize="20sp"/>
     </RelativeLayout>
 
     <RelativeLayout

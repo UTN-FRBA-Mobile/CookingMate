@@ -1,4 +1,4 @@
-package edu.utn.frba.cookingmate.ui.main
+package edu.utn.frba.cookingmate.ui.storiesthumbnail
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,16 +10,13 @@ import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.models.Story
-import edu.utn.frba.cookingmate.viewmodels.RecipeViewModel
-import kotlinx.android.synthetic.main.fragment_recipe.view.*
 import kotlinx.android.synthetic.main.story_thumbnail_fragment.view.*
 
-
-class RecipeStoriesThumbnailAdapter(
-    private val stories: MutableList<Story>
-//    private val onClickViewStoryListener: (Recipe) -> Unit
+class StoriesThumbnailAdapter(
+    private val recipe: Recipe,
+    private val onClickViewRecipeStoriesListener: (Recipe) -> Unit
 ) :
-    RecyclerView.Adapter<RecipeStoriesThumbnailAdapter.MyViewHolder>() {
+    RecyclerView.Adapter<StoriesThumbnailAdapter.MyViewHolder>() {
 
     private lateinit var recipeViewModels: Map<String, Story>
 
@@ -32,11 +29,13 @@ class RecipeStoriesThumbnailAdapter(
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.story_thumbnail_fragment, parent, false)
 
-        recipeViewModels = stories.map { story ->
+        recipeViewModels = recipe.stories.map { story ->
             story.id to story
         }.toMap()
 
-        return MyViewHolder(view)
+        return MyViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
@@ -51,8 +50,10 @@ class RecipeStoriesThumbnailAdapter(
             .load(story.imageLink)
             .apply(requestOptions)
             .into(holder.view.thumbnailImage)
+
+        holder.view.setOnClickListener { onClickViewRecipeStoriesListener(recipe) }
     }
 
-    override fun getItemCount() = stories.size
+    override fun getItemCount() = recipe.stories.size
 
 }
