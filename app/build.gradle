@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 28
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -16,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId "edu.utn.frba.cookingmate"
-        minSdkVersion 29
-        targetSdkVersion 29
+        minSdkVersion 26
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
