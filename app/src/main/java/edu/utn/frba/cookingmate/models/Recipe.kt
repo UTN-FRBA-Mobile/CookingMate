@@ -4,17 +4,18 @@ class Recipe(
     val id: String,
     val name: String,
     val imageLink: String,
-    val ingredientes: List<String>,
+    val ingredients: List<String>,
     val stories: MutableList<Story>
 ) {
     companion object {
-        fun fromDocument(document: MutableMap<String, Any>): Recipe {
+        fun fromDocument(id: String, document: MutableMap<String, Any>): Recipe {
             return Recipe(
-                document["id"].toString(),
+                id,
                 document["name"].toString(),
                 document["imageLink"].toString(),
-                listOf(),
-                mutableListOf()
+                (document["ingredients"] as List<String>).toList(),
+                (document["stories"] as List<Map<String, Any>>).map { Story.fromDocument(it) }
+                    .toMutableList()
             )
         }
     }

@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import edu.utn.frba.cookingmate.models.Recipe
-import edu.utn.frba.cookingmate.repository.APIRepository
+import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.ui.main.MainFragment
 import edu.utn.frba.cookingmate.ui.steps.StepsFragment
 import edu.utn.frba.cookingmate.ui.stories.StoriesFragment
@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        APIRepository.initialize(this)
+        APIService.initialize(this)
 
         // TODO find better way to do this
         try {

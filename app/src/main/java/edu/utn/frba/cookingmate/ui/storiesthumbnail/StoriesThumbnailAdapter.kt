@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.*
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
@@ -18,7 +18,7 @@ class StoriesThumbnailAdapter(
 ) :
     RecyclerView.Adapter<StoriesThumbnailAdapter.MyViewHolder>() {
 
-    private lateinit var recipeViewModels: Map<String, Story>
+    private lateinit var recipeViewModels: List<Story>
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -29,9 +29,7 @@ class StoriesThumbnailAdapter(
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.story_thumbnail_fragment, parent, false)
 
-        recipeViewModels = recipe.stories.map { story ->
-            story.id to story
-        }.toMap()
+        recipeViewModels = recipe.stories
 
         return MyViewHolder(
             view
@@ -39,7 +37,7 @@ class StoriesThumbnailAdapter(
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val story = recipeViewModels.entries.toList()[position].value // TODO improve
+        val story = recipeViewModels[position] // TODO improve
         val view = holder.view
 
         view.authorName.text = story.authorName

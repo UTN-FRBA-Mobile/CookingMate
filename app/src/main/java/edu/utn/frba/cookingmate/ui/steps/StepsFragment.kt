@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.updateLayoutParams
 import androidx.fragment.app.Fragment
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -20,8 +19,8 @@ import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
 import kotlinx.android.synthetic.main.fragment_steps.*
 
-
 class StepsFragment(val recipe: Recipe) : Fragment(), Player.EventListener {
+    val name = "StepsFragement"
     private var playWhenReady: Boolean = true
     private var currentWindow: Int = 0
     private var playbackPosition: Long = 0

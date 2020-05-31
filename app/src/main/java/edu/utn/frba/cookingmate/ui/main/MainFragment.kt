@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
-import edu.utn.frba.cookingmate.repository.APIRepository
+import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
+    val name = "MainFragement"
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var recyclerView: RecyclerView
 
@@ -32,7 +33,7 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        APIRepository.getRecipes { setRecipes(it) }
+        APIService.getRecipes { setRecipes(it) }
     }
 
     fun setRecipes(recipes: List<Recipe>) {
