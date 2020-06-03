@@ -20,7 +20,7 @@ import edu.utn.frba.cookingmate.models.Recipe
 import kotlinx.android.synthetic.main.fragment_steps.*
 
 class StepsFragment(val recipe: Recipe) : Fragment(), Player.EventListener {
-    val name = "StepsFragement"
+    val name = "StepsFragment"
     private var playWhenReady: Boolean = true
     private var currentWindow: Int = 0
     private var playbackPosition: Long = 0

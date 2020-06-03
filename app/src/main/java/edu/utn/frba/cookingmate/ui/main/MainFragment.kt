@@ -15,7 +15,7 @@ import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
-    val name = "MainFragement"
+    val name = "MainFragment"
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var recyclerView: RecyclerView
 
