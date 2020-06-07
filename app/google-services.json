@@ -1,12 +1,12 @@
 {
-  "type": "service_account",
-  "project_id": "cookingmate-d6d4b",
-  "private_key_id": "81a4b1646ce66bef0724c22cb80e2fa6d03450c3",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC1W3iCU66/JErc\n0eXqyTrs77btH0HlgAvYsAr6cyjWWNAtCr+yKvhnDP9Jel/2kzsOY6FrEv3KjiZ5\ne2E1i9ei09fZIWPSAadTp576vzyfSUAAWvBcpE/AgzbsZF2FeNNZSqgz67LUh/6p\nDyMf5N22n6bjUWYwZXxa018pSEPfcgvpQHmrB0kGfV3R4GxvJVG8pzPtxq/iBh2j\nj+dvgxvKrOjJzctTK2QITpTGvtCFEINfCS+wOao0w7wzZJB8HXunge51fzSgUYvJ\nZ0Twhydsz9bQsF3ksHIEAsXeflaLdctyZHPecFfBPdP/dvDUDrxkW8AgnvyQGX4S\nlkt9mxLPAgMBAAECggEAPzcPHn6E3uOLpMUVW22hOI2mOak3kwO7HWDfssUJaw2y\nIsEoaLZJt8H0Cmy5nn1bjHx1+5i3Fi/OgXHcRInmND+bcXgOD1m8NZCr/cNDIlKq\nGHWaavBrTDNwpZ2ma6veH7XCQ7bYsvRkdBFusONZ1Rp5Vas974iwfAhJl141KmFE\nOYHoMi7qEKbgMUvh5zcEbprX2HzGvE+2RcLgnWQTj3b+qx7QIGPRJ3SHVMui/4z1\nsGfZpP9dwNzYn7HIWr/a9F6jqA9k2JZrDuX12VBvlJOF3ayWligiRRGZfJHmvwN/\nf3G1/l9XnvOY0HqCiozGHajM4B6JIWTtr2E9R2TVgQKBgQDdOyYQQmoKqY/ZkvUe\nNEV7gyIYd+44HTNRjgYdfjHNOSKrTXvEViG9LQTGlilvWLILaRrkIGApkw3I5DPp\na5W8KpToD2uuQWcrGSEtn2CK1XPok4r4liOoqngQQancZDkpfdoFqqjTGh3BVtqt\n4qlXeoyubO2ahSmxMTZ3siNIfwKBgQDR3BIOGPgDVRKfc/32Srt8sH7k00Fp584P\nwSnKTFnbo+9MY49bfnNJ8OAerpmvZ0VDOvH+I2edOluzEWSmYt9z9Dv2gAqBN0w8\nf9m9IrsFEZvqGfmkke/7LrwUK7JT3J8hrPw6HSCcBrPdt/LJRh/cqRe0DPKXKXwd\nhLtDt7iNsQKBgGRg+hxWhhbgaMynyWAzB3PLRCUmBYigdzCB6HRpVd9wFTL0rTug\neR6E1q3kZFiJPf+/aNwpdHhoqNCF+qfmkMIX8Ah7NriSJGWBuXQh5IQZ5cWZbGzu\ncq+M6X02zgOZ1fXljI8VqBRgvS+EYSSUu5FdoYdjFUwPL6OeWMBmq2uxAoGBAJ/r\nOOL/SfeYG5Hg3RWTC15QTNJo3b8rgs5kn0jmd881FIS8laDeMlKVOOSIntqYMqKx\nx3inWCzrLLe/OFjGnYsKAautFNQ05GZx8uX7ElMhgROa6a7r+tkJWw9v4Pug8q7B\n2I8cZR4gyW3a4CtawarwO/zbpP1mAoun+t/2n69xAoGBAJkiEL/bdm6bRSsth1cu\nSqKcxMc/To2aZorKqV/75IsSfyNvgU800TrRM+ZGZbfnG8M7f6u/EMfXdT3+SjJ2\nY7OYBDhs+o2qSgcnwJgAIsl6FlbYHNCda9DX9M4ig5wqFJG+Z+PRw2vu+R3/OqTq\ndWWjFfgw3V9zQLaKGMoSs7nn\n-----END PRIVATE KEY-----\n",
-  "client_email": "firebase-adminsdk-fuop0@cookingmate-d6d4b.iam.gserviceaccount.com",
-  "client_id": "114986020474097051893",
-  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-  "token_uri": "https://oauth2.googleapis.com/token",
-  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fuop0%40cookingmate-d6d4b.iam.gserviceaccount.com"
+  "type": "",
+  "project_id": "",
+  "private_key_id": "",
+  "private_key": "",
+  "client_email": "",
+  "client_id": "",
+  "auth_uri": "",
+  "token_uri": "",
+  "auth_provider_x509_cert_url": "",
+  "client_x509_cert_url": ""
 }
