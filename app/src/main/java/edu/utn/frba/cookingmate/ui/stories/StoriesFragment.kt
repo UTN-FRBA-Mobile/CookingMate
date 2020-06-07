@@ -15,6 +15,7 @@ import edu.utn.frba.cookingmate.models.Recipe
 import kotlinx.android.synthetic.main.fragment_stories.*
 
 class StoriesFragment(private val recipe: Recipe) : Fragment() {
+    val name: String = "StoriesFragment"
     private var listener: OnFragmentInteractionListener? = null
     private val posXY = IntArray(2)
     private var currentStoryPosition = 0

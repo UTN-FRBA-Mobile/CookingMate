@@ -53,7 +53,7 @@ class RecipesAdapter(
             .apply(RequestOptions().transforms(CenterCrop()))
             .into(holder.view.recipeImage)
 
-        view.recipeIngredients.text = recipeViewModel.recipe.ingredientes.joinToString("\n")
+        view.recipeIngredients.text = recipeViewModel.recipe.ingredients.joinToString("\n")
         view.viewIngredients.setOnClickListener {
             toggleIngredients(
                 recipeViewModel.recipe.id,
