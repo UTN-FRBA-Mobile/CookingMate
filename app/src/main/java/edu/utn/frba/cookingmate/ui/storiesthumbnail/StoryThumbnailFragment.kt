@@ -9,7 +9,6 @@ import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Story
 
 class StoryThumbnailFragment(val story: Story) : Fragment() {
-
     companion object {
         fun newInstance(story: Story) =
             StoryThumbnailFragment(
@@ -23,9 +22,4 @@ class StoryThumbnailFragment(val story: Story) : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.story_thumbnail_fragment, container, false)
     }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
 }

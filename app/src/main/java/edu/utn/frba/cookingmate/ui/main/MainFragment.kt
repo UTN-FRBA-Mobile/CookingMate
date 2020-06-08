@@ -33,7 +33,7 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        APIService.getRecipes { setRecipes(it) }
+        APIService.loadProfiles { APIService.getRecipes { setRecipes(it) } }
     }
 
     fun setRecipes(recipes: List<Recipe>) {

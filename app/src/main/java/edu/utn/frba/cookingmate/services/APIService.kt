@@ -12,6 +12,7 @@ import edu.utn.frba.cookingmate.models.Recipe
 class APIService {
     companion object {
         private lateinit var firebaseAPP: FirebaseApp
+        val profilesMap: MutableMap<String, Profile> = mutableMapOf()
 
         fun initialize(context: Context) {
             firebaseAPP = FirebaseApp.initializeApp(
@@ -33,18 +34,22 @@ class APIService {
                 .addOnSuccessListener { query ->
                     fn(
                         query.documents
-                            .map { document ->
-                                Recipe.fromDocument(document.id, document.data!!)
-                            })
+                            .map { Recipe.fromDocument(it.id, it.data!!) })
                 }
         }
 
-        fun getProfiles(fn: (List<Profile>) -> Unit) {
+        fun loadProfiles(fn: () -> Unit) {
             getDB().collection("profiles")
                 .get()
                 .addOnSuccessListener { query ->
-                    fn(query.documents
-                        .map { Profile.fromDocument(it.data!!) })
+                    query.documents
+                        .map {
+                            profilesMap.put(
+                                it.id, Profile.fromDocument(it.id, it.data!!)
+                            )
+                        }
+
+                    fn()
                 }
         }
     }

@@ -1,13 +1,13 @@
 package edu.utn.frba.cookingmate.models
 
 class Story(
-    val authorName: String,
+    val profileId: String,
     val imageLink: String
 ) {
     companion object {
         fun fromDocument(document: Map<String, Any>): Story {
             return Story(
-                document["name"].toString(),
+                document["profileId"].toString(),
                 document["imageLink"].toString()
             )
         }

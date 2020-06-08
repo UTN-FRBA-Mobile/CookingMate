@@ -37,16 +37,19 @@ class StoriesThumbnailFragment(private val recipe: Recipe) : Fragment() {
             LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
         val viewAdapter =
             StoriesThumbnailAdapter(
-                recipe,
-                { listener!!.onViewRecipeStories(it) }
-            )
+                recipe
+            ) { _recipe: Recipe, profileId: String ->
+                listener!!.onViewRecipeStories(
+                    _recipe,
+                    profileId
+                )
+            }
 
         recipeStoriesThumbnailRecyclerView = recipeStoriesThumbnailRecycler.apply {
             setHasFixedSize(false)
             layoutManager = viewManager
             adapter = viewAdapter
         }
-
     }
 
     override fun onAttach(context: Context) {
@@ -64,6 +67,6 @@ class StoriesThumbnailFragment(private val recipe: Recipe) : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        fun onViewRecipeStories(recipe: Recipe)
+        fun onViewRecipeStories(recipe: Recipe, profileId: String)
     }
 }

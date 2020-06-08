@@ -47,8 +47,8 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
             .add(R.id.container, stepsFragment).commitNow()
     }
 
-    override fun onViewRecipeStories(recipe: Recipe) {
-        storiesFragment = StoriesFragment.newInstance(recipe)
+    override fun onViewRecipeStories(recipe: Recipe, profileId: String) {
+        storiesFragment = StoriesFragment.newInstance(recipe, profileId)
 
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
 

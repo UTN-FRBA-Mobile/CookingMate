@@ -10,11 +10,12 @@ import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.models.Story
+import edu.utn.frba.cookingmate.services.APIService
 import kotlinx.android.synthetic.main.story_thumbnail_fragment.view.*
 
 class StoriesThumbnailAdapter(
     private val recipe: Recipe,
-    private val onClickViewRecipeStoriesListener: (Recipe) -> Unit
+    private val onClickViewRecipeStoriesListener: (Recipe, String) -> Unit
 ) :
     RecyclerView.Adapter<StoriesThumbnailAdapter.MyViewHolder>() {
 
@@ -39,19 +40,19 @@ class StoriesThumbnailAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val story = recipeViewModels[position] // TODO improve
         val view = holder.view
+        val profile = APIService.profilesMap[story.profileId]!!
 
-        view.authorName.text = story.authorName
+        view.authorName.text = profile.name
         var requestOptions = RequestOptions()
         requestOptions = requestOptions.transforms(CircleCrop())
 
         Glide.with(view)
-            .load(story.imageLink)
+            .load(profile.profileImageLink)
             .apply(requestOptions)
             .into(holder.view.thumbnailImage)
 
-        holder.view.setOnClickListener { onClickViewRecipeStoriesListener(recipe) }
+        holder.view.setOnClickListener { onClickViewRecipeStoriesListener(recipe, profile.id) }
     }
 
     override fun getItemCount() = recipe.stories.size
-
 }

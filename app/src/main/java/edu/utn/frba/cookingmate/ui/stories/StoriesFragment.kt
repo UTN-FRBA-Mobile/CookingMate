@@ -8,22 +8,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.services.APIService
 import kotlinx.android.synthetic.main.fragment_stories.*
 
-class StoriesFragment(private val recipe: Recipe) : Fragment() {
+class StoriesFragment(private val recipe: Recipe, private val selectedProfileId: String) :
+    Fragment() {
     val name: String = "StoriesFragment"
     private var listener: OnFragmentInteractionListener? = null
     private val posXY = IntArray(2)
-    private var currentStoryPosition = 0
+    private var currentStoryPosition =
+        recipe.stories.indexOfFirst { it.profileId == selectedProfileId }
 
     companion object {
         @JvmStatic
-        fun newInstance(recipe: Recipe) =
-            StoriesFragment(recipe)
+        fun newInstance(recipe: Recipe, profileId: String) =
+            StoriesFragment(recipe, profileId)
     }
 
     override fun onCreateView(
@@ -65,13 +69,18 @@ class StoriesFragment(private val recipe: Recipe) : Fragment() {
 
     private fun showStory() {
         val storyToShow = recipe.stories[currentStoryPosition]
+        val profile = APIService.profilesMap[storyToShow.profileId]!!
 
         Glide.with(view)
             .load(storyToShow.imageLink)
             .apply(RequestOptions().transform(FitCenter()))
             .into(storyImage)
 
-        authorName.text = storyToShow.authorName
+        authorName.text = profile.name
+        Glide.with(view)
+            .load(profile.profileImageLink)
+            .apply(RequestOptions().transform(CircleCrop()))
+            .into(authorImage)
     }
 
     override fun onAttach(context: Context) {
