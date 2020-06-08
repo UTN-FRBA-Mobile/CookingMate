@@ -2,7 +2,6 @@ package edu.utn.frba.cookingmate
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.ui.main.MainFragment
@@ -61,5 +60,6 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
     override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0)
             supportFragmentManager.popBackStackImmediate()
+        else super.onBackPressed()
     }
 }
