@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.services.APIService
-import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -36,17 +35,12 @@ class MainFragment : Fragment() {
         APIService.loadProfiles { APIService.getRecipes { setRecipes(it) } }
     }
 
-    fun setRecipes(recipes: List<Recipe>) {
+    private fun setRecipes(recipes: List<Recipe>) {
         val viewManager = LinearLayoutManager(this.context)
         val viewAdapter = RecipesAdapter(
-            recipes,
-            { listener!!.onViewRecipeSteps(it) },
-            { fragmentContainer: View, recipe: Recipe ->
-                parentFragmentManager.beginTransaction().replace(
-                    fragmentContainer.id,
-                    StoriesThumbnailFragment.newInstance(recipe)
-                ).commit()
-            })
+            listener,
+            recipes
+        ) { listener!!.onViewRecipeSteps(it) }
 
         recyclerView = feedRecycler.apply {
             setHasFixedSize(true)
@@ -71,5 +65,6 @@ class MainFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onViewRecipeSteps(recipe: Recipe)
+        fun onViewRecipeStories(recipe: Recipe, profileId: String)
     }
 }

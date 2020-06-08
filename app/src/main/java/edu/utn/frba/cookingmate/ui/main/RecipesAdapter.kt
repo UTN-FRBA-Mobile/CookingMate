@@ -3,23 +3,26 @@ package edu.utn.frba.cookingmate.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.*
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailAdapter
 import edu.utn.frba.cookingmate.viewmodels.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_recipe.view.*
 
 class RecipesAdapter(
+    private var listener: MainFragment.OnFragmentInteractionListener?,
     private val recipes: List<Recipe>,
-    private val onClickViewStepsListener: (Recipe) -> Unit,
-    private val showStoriesFragment: (View, Recipe) -> Unit
+    private val onClickViewStepsListener: (Recipe) -> Unit
 ) :
     RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     private lateinit var recipeViewModels: Map<String, RecipeViewModel>
+    private lateinit var recipeStoriesThumbnailRecyclerView: RecyclerView
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -62,7 +65,18 @@ class RecipesAdapter(
         }
         view.recipeIngredients.visibility = View.INVISIBLE
 
-        showStoriesFragment(view.fragmentRecipeStoriesThumbnailContainer, recipeViewModel.recipe)
+        recipeStoriesThumbnailRecyclerView = view.recipeStoriesThumbnailRecycler.apply {
+            setHasFixedSize(false)
+            layoutManager = LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
+            adapter = StoriesThumbnailAdapter(
+                recipeViewModel.recipe
+            ) { _recipe: Recipe, profileId: String ->
+                listener!!.onViewRecipeStories(
+                    _recipe,
+                    profileId
+                )
+            }
+        }
     }
 
     override fun getItemCount() = recipes.size

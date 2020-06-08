@@ -8,10 +8,8 @@ import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.ui.main.MainFragment
 import edu.utn.frba.cookingmate.ui.steps.StepsFragment
 import edu.utn.frba.cookingmate.ui.stories.StoriesFragment
-import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailFragment
 
 class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionListener,
-    StoriesThumbnailFragment.OnFragmentInteractionListener,
     StoriesFragment.OnFragmentInteractionListener {
     private lateinit var mainFragment: MainFragment
     private lateinit var stepsFragment: StepsFragment
@@ -41,25 +39,27 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
     override fun onViewRecipeSteps(recipe: Recipe) {
         stepsFragment = StepsFragment.newInstance(recipe)
 
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-        supportFragmentManager.beginTransaction().remove(mainFragment)
-            .add(R.id.container, stepsFragment).commitNow()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, stepsFragment)
+            .addToBackStack(stepsFragment.name)
+            .commit()
     }
 
     override fun onViewRecipeStories(recipe: Recipe, profileId: String) {
         storiesFragment = StoriesFragment.newInstance(recipe, profileId)
 
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-
-        supportFragmentManager.beginTransaction().remove(mainFragment)
-            .add(R.id.container, storiesFragment).commitNow()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, storiesFragment)
+            .addToBackStack(storiesFragment.name)
+            .commit()
     }
 
     override fun onViewMainFeed() {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.popBackStack()
+    }
 
-        supportFragmentManager.beginTransaction().remove(storiesFragment)
-            .add(R.id.container, mainFragment).commitNow()
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0)
+            supportFragmentManager.popBackStackImmediate()
     }
 }

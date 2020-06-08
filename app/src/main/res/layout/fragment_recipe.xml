@@ -43,11 +43,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:lineHeight="30sp"
             android:singleLine="false"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
-            android:lineHeight="30sp"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -87,9 +87,11 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/fragmentRecipeStoriesThumbnailContainer"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recipeStoriesThumbnailRecycler"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:background="@android:color/black" />
+        android:layout_marginStart="10dp"
+        android:background="@android:color/black"
+        android:orientation="horizontal" />
 </LinearLayout>

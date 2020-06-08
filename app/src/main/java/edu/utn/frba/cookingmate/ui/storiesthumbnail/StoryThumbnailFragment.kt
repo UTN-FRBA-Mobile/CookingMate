@@ -6,16 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import edu.utn.frba.cookingmate.R
-import edu.utn.frba.cookingmate.models.Story
 
-class StoryThumbnailFragment(val story: Story) : Fragment() {
-    companion object {
-        fun newInstance(story: Story) =
-            StoryThumbnailFragment(
-                story
-            )
-    }
-
+class StoryThumbnailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
