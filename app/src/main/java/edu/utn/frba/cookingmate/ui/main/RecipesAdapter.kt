@@ -3,13 +3,15 @@ package edu.utn.frba.cookingmate.ui.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isGone
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.*
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.services.StateService
 import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailAdapter
 import edu.utn.frba.cookingmate.viewmodels.RecipeViewModel
 import kotlinx.android.synthetic.main.fragment_recipe.view.*
@@ -17,7 +19,8 @@ import kotlinx.android.synthetic.main.fragment_recipe.view.*
 class RecipesAdapter(
     private var listener: MainFragment.OnFragmentInteractionListener?,
     private val recipes: List<Recipe>,
-    private val onClickViewStepsListener: (Recipe) -> Unit
+    private val onClickViewStepsListener: (Recipe) -> Unit,
+    private val addStoryImageFn: (String) -> Unit
 ) :
     RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
@@ -65,9 +68,21 @@ class RecipesAdapter(
         }
         view.recipeIngredients.visibility = View.INVISIBLE
 
+        holder.view.noStoriesRecipe.visibility =
+            if (recipeViewModel.recipe.stories.isEmpty()) View.VISIBLE else View.INVISIBLE
+
+        // If current user already uploaded their story
+        when (recipeViewModel.recipe.stories.any { it.profileId == StateService.getCurrentProfile().id }) {
+            true -> holder.view.addStoryWrapper.isGone = true
+            false -> holder.view.addStoryWrapper.setOnClickListener {
+                addStoryImageFn(recipeViewModel.recipe.id)
+            }
+        }
+
         recipeStoriesThumbnailRecyclerView = view.recipeStoriesThumbnailRecycler.apply {
             setHasFixedSize(false)
-            layoutManager = LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
             adapter = StoriesThumbnailAdapter(
                 recipeViewModel.recipe
             ) { _recipe: Recipe, profileId: String ->
