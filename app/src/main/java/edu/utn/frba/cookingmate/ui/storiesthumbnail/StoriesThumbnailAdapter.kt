@@ -11,6 +11,7 @@ import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.services.APIService
+import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.story_thumbnail_fragment.view.*
 
 class StoriesThumbnailAdapter(
@@ -30,7 +31,8 @@ class StoriesThumbnailAdapter(
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.story_thumbnail_fragment, parent, false)
 
-        recipeViewModels = recipe.stories
+        recipeViewModels =
+            recipe.stories.sortedBy { it.profileId != StateService.getCurrentProfile().id }
 
         return MyViewHolder(
             view
