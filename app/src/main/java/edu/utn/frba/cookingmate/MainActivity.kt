@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
     }
 
     override fun onViewRecipeSteps(recipe: Recipe) {
-        stepsFragment = StepsFragment.newInstance(recipe)
+        stepsFragment = StepsFragment.newInstance(recipe.steps)
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, stepsFragment)
