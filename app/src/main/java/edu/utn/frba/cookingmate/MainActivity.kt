@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         stepsFragment = StepsFragment.newInstance(recipe.steps)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, stepsFragment)
+            .add(R.id.container, stepsFragment)
             .addToBackStack(stepsFragment.name)
             .commit()
     }
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         storiesFragment = StoriesFragment.newInstance(recipe, profileId)
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, storiesFragment)
+            .add(R.id.container, storiesFragment)
             .addToBackStack(storiesFragment.name)
             .commit()
     }
