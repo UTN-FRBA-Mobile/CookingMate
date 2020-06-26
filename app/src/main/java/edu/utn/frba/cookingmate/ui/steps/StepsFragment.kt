@@ -1,5 +1,8 @@
 package edu.utn.frba.cookingmate.ui.steps
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,12 +20,14 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import edu.utn.frba.cookingmate.R
-import edu.utn.frba.cookingmate.models.Comment
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.models.Step
+import edu.utn.frba.cookingmate.services.APIService
+import edu.utn.frba.cookingmate.services.CameraService
+import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.fragment_steps.*
 
-class StepsFragment(val steps: List<Step>, val stepNumber: Int) : Fragment(), Player.EventListener {
+class StepsFragment(val recipe: Recipe, val stepNumber: Int) : Fragment(), Player.EventListener {
     val name = "StepsFragment"
     private var playWhenReady: Boolean = true
     private var currentWindow: Int = 0
@@ -45,19 +50,23 @@ class StepsFragment(val steps: List<Step>, val stepNumber: Int) : Fragment(), Pl
 //        playbackStateListener = PlaybackStateListener()
         loadStep()
         addComment.setOnClickListener {
-            //TODO ejecutar camara
-            Toast.makeText(context, "agregaar imagen", Toast.LENGTH_SHORT).show()
+            CameraService.takePicture(this) {
+                startActivityForResult(
+                    it,
+                    CameraService.TAKE_PICTURE_REQUEST_CODE
+                )
+            }
         }
     }
 
     fun loadStep() {
-        val step = steps[0]
+        val step = recipe.steps[stepNumber]
         stepsTitle = step.description
         loadComments(step)
     }
 
     fun loadComments(step: Step) {
-        val aComment = step.comments.getOrNull(stepNumber)
+        val aComment = step.comments.getOrNull(0)
         aComment?.let {
             comment.text = it.text
             Glide.with(context).load(it.imageLink).into(commentPicture)
@@ -69,6 +78,32 @@ class StepsFragment(val steps: List<Step>, val stepNumber: Int) : Fragment(), Pl
     fun clearComments() {
         comment.text = "No hay comentarios :("
         commentPicture.setImageDrawable(null)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            CameraService.TAKE_PICTURE_REQUEST_CODE ->
+                if (resultCode == Activity.RESULT_OK) {
+                    val profile = StateService.getCurrentProfile()
+
+                    val imageBitmap = data!!.extras.get("data") as Bitmap
+
+                    APIService.addComment(
+                        recipe.id,
+                        profile,
+                        imageBitmap,
+                        "joasida",
+                        stepNumber
+                    ) {
+//                        APIService.getRecipe(MainFragment.recipeIdCamera!!) { updatedRecipe ->
+//                            recipes =
+//                                recipes.map { if (it.id == MainFragment.recipeIdCamera) updatedRecipe else it }
+//
+//                            updateRecipes()
+//                        }
+                    }
+                }
+        }
     }
 
     override fun onCreateView(
@@ -138,8 +173,8 @@ class StepsFragment(val steps: List<Step>, val stepNumber: Int) : Fragment(), Pl
 
     companion object {
         @JvmStatic
-        fun newInstance(steps: List<Step>, stepNumber: Int = 0) =
-            StepsFragment(steps, stepNumber).apply {
+        fun newInstance(recipe: Recipe, stepNumber: Int = 0) =
+            StepsFragment(recipe, stepNumber).apply {
                 arguments = Bundle().apply {}
             }
     }

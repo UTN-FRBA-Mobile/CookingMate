@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context=".ui.steps.StepsFragment">
+    tools:context=".ui.steps.StepsFragment"
+    android:background="@color/darkGray">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/video_view"

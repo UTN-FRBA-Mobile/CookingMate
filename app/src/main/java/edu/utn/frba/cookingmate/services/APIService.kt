@@ -12,6 +12,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import edu.utn.frba.cookingmate.models.Profile
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Step
 import java.io.ByteArrayOutputStream
 import java.util.*
 
@@ -58,6 +59,17 @@ class APIService {
                 }
         }
 
+        fun getSteps(recipe: Recipe, fn: (Recipe) -> Unit) {
+            getDB().collection("recipes")
+                .document(recipe.id)
+                .collection("steps")
+                .get()
+                .addOnSuccessListener { query ->
+                    recipe.steps = query.documents.map { Step.fromDocument(it.data!!) }
+                    fn(recipe)
+                }
+        }
+
         fun loadProfiles(fn: () -> Unit) {
             getDB().collection("profiles")
                 .get()
@@ -92,6 +104,36 @@ class APIService {
                         getDB().collection("recipes")
                             .document(recipeId)
                             .update("stories", FieldValue.arrayUnion(newStory))
+                            .addOnSuccessListener { fn() }
+                    }
+                }
+        }
+
+        fun addComment(recipeId: String, profile: Profile, image: Bitmap, text: String, stepNumber: Int, fn: () -> Unit) {
+            val baos = ByteArrayOutputStream()
+            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            val data = baos.toByteArray()
+
+            getStorage()
+                .reference
+                .child("commentsImages/photo-${UUID.randomUUID()}.jpg")
+                .putBytes(data)
+                .addOnSuccessListener { r ->
+                    r.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
+                        val newComment = hashMapOf(
+                            // TODO guarda mal el id
+                            "authorId" to profile.id,
+                            "imageLink" to uri.toString(),
+                            "text" to text
+                        )
+
+                        val steps = getDB().collection("recipes")
+                            .document(recipeId)
+                            .collection("steps")
+                        val comment = steps
+                            .document(stepNumber.toString())
+                        comment
+                            .update("comments", FieldValue.arrayUnion(newComment))
                             .addOnSuccessListener { fn() }
                     }
                 }

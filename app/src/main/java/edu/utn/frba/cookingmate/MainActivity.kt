@@ -36,12 +36,21 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
     }
 
     override fun onViewRecipeSteps(recipe: Recipe) {
-        stepsFragment = StepsFragment.newInstance(recipe.steps)
+        if (recipe.steps.isEmpty()) {
+            APIService.getSteps(recipe) { completeRecipe -> setStepFragment(completeRecipe) }
+        } else {
+            setStepFragment(recipe)
+        }
+    }
+
+    private fun setStepFragment(recipe: Recipe) {
+        stepsFragment = StepsFragment.newInstance(recipe)
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container, stepsFragment)
             .addToBackStack(stepsFragment.name)
             .commit()
+
     }
 
     override fun onViewRecipeStories(recipe: Recipe, profileId: String) {
