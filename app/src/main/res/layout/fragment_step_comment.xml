@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".ui.steps.StepCommentFragment"
+    android:weightSum="1"
+    android:background="#00FFFFFF">
+
+    <EditText android:id="@+id/newComment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="44dp"
+        android:layout_weight=".3"
+        android:inputType="textAutoCorrect"
+        android:hint="¿Qué cambiarías?" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".1">
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/addCommentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="44dp"
+            android:layout_gravity="end"
+            android:src="@mipmap/ic_launcher" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="44dp"
+            android:layout_gravity="end"
+            android:src="@mipmap/ic_launcher" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight=".6"/>
+</LinearLayout>

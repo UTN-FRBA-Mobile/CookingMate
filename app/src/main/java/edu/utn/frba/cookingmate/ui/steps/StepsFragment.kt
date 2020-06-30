@@ -27,7 +27,7 @@ import edu.utn.frba.cookingmate.services.CameraService
 import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.fragment_steps.*
 
-class StepsFragment(val recipe: Recipe, val stepNumber: Int) : Fragment(), Player.EventListener {
+class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) -> Unit, var stepNumber: Int) : Fragment(), Player.EventListener {
     val name = "StepsFragment"
     private var playWhenReady: Boolean = true
     private var currentWindow: Int = 0
@@ -88,19 +88,21 @@ class StepsFragment(val recipe: Recipe, val stepNumber: Int) : Fragment(), Playe
 
                     val imageBitmap = data!!.extras.get("data") as Bitmap
 
-                    APIService.addComment(
-                        recipe.id,
-                        profile,
-                        imageBitmap,
-                        "joasida",
-                        stepNumber
-                    ) {
+                    commentFunction { comment ->
+                        APIService.addComment(
+                            recipe.id,
+                            profile,
+                            imageBitmap,
+                            comment,
+                            stepNumber
+                        ) {
 //                        APIService.getRecipe(MainFragment.recipeIdCamera!!) { updatedRecipe ->
 //                            recipes =
 //                                recipes.map { if (it.id == MainFragment.recipeIdCamera) updatedRecipe else it }
 //
 //                            updateRecipes()
 //                        }
+                        }
                     }
                 }
         }
@@ -173,8 +175,8 @@ class StepsFragment(val recipe: Recipe, val stepNumber: Int) : Fragment(), Playe
 
     companion object {
         @JvmStatic
-        fun newInstance(recipe: Recipe, stepNumber: Int = 0) =
-            StepsFragment(recipe, stepNumber).apply {
+        fun newInstance(recipe: Recipe, commentFunction: ((String) -> Unit) -> Unit, stepNumber: Int = 0) =
+            StepsFragment(recipe, commentFunction, stepNumber).apply {
                 arguments = Bundle().apply {}
             }
     }

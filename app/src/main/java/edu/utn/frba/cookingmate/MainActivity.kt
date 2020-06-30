@@ -2,9 +2,11 @@ package edu.utn.frba.cookingmate
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import edu.utn.frba.cookingmate.models.Comment
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.ui.main.MainFragment
+import edu.utn.frba.cookingmate.ui.steps.StepCommentFragment
 import edu.utn.frba.cookingmate.ui.steps.StepsFragment
 import edu.utn.frba.cookingmate.ui.stories.StoriesFragment
 
@@ -43,8 +45,21 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         }
     }
 
+    private fun setCommentFragment(callback: (String) -> Unit) {
+        val stepCommentFragment = StepCommentFragment { comment: String? ->
+            comment?.let(callback)
+            supportFragmentManager.popBackStack()
+        }
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, stepCommentFragment)
+            .addToBackStack(stepCommentFragment.name)
+            .commit()
+
+    }
+
     private fun setStepFragment(recipe: Recipe) {
-        stepsFragment = StepsFragment.newInstance(recipe)
+        stepsFragment = StepsFragment.newInstance(recipe, this::setCommentFragment)
 
         supportFragmentManager.beginTransaction()
             .add(R.id.container, stepsFragment)
