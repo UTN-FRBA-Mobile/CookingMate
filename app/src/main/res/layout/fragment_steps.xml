@@ -11,69 +11,15 @@
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/black_screen"
+        <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/player_overlay"
             android:visibility="invisible"
-            android:background="#CC000000"/>
+            layout="@layout/player_overlay"/>
 
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start"
-            android:background="@drawable/exo_controls_previous"
-            android:visibility="invisible"
-            android:contentDescription="@string/description" />
-
-        <ImageView
-            android:id="@+id/replay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            android:background="@drawable/ic_baseline_replay_32"
-            android:visibility="invisible"
-            android:contentDescription="@string/description" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center"
-            android:visibility="invisible"
-            android:id="@+id/addStoryWrapper">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@drawable/ic_baseline_add_35"
-                android:contentDescription="@string/description" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:drawableTop="@drawable/add_story_shape"
-                android:fontFamily="@font/muli_light"
-                android:text="@string/add_story"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12sp"
-                android:typeface="sans" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:background="@drawable/exo_icon_next"
-            android:visibility="invisible"
-            android:contentDescription="@string/description" />
 
     </com.google.android.exoplayer2.ui.PlayerView>
 

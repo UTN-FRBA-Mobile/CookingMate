@@ -3,7 +3,7 @@ package edu.utn.frba.cookingmate.ui.main
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +29,7 @@ class MainFragment : Fragment() {
         fun newInstance() = MainFragment()
 
         var recipeIdCamera: String? = null
+        var currentUriCamera: Uri? = null
     }
 
     override fun onCreateView(
@@ -56,11 +57,12 @@ class MainFragment : Fragment() {
             recipes,
             listener!!::onViewRecipeSteps
         ) { recipeId ->
-            CameraService.takePicture(this) {
+            CameraService.takePicture(this) { intent, uri ->
                 recipeIdCamera = recipeId
+                currentUriCamera = uri
 
                 startActivityForResult(
-                    it,
+                    intent,
                     CameraService.TAKE_PICTURE_REQUEST_CODE
                 )
             }
@@ -79,12 +81,12 @@ class MainFragment : Fragment() {
                 if (resultCode == Activity.RESULT_OK) {
                     val profile = StateService.getCurrentProfile()
 
-                    val imageBitmap = data!!.extras.get("data") as Bitmap
+                    val inputData = context?.contentResolver?.openInputStream(currentUriCamera!!)?.readBytes()
 
                     APIService.addStory(
                         recipeIdCamera!!,
                         profile,
-                        imageBitmap
+                        inputData!!
                     ) {
                         APIService.getRecipe(recipeIdCamera!!) { updatedRecipe ->
                             recipes =

@@ -3,16 +3,18 @@ package edu.utn.frba.cookingmate.ui.steps
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
@@ -25,9 +27,14 @@ import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.services.CameraService
 import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.fragment_steps.*
-import kotlinx.android.synthetic.main.fragment_steps.view.*
+import kotlinx.android.synthetic.main.player_overlay.*
+import kotlinx.android.synthetic.main.player_overlay.addStoryWrapper
 
-class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) -> Unit, var stepNumber: Int) : Fragment(), Player.EventListener {
+class StepsFragment(
+    val recipe: Recipe,
+    val commentFunction: ((String) -> Unit) -> Unit,
+    var stepNumber: Int
+) : Fragment(), Player.EventListener {
     val name = "StepsFragment"
     private var playWhenReady: Boolean = true
     private var currentWindow: Int = 0
@@ -46,17 +53,44 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
         super.onActivityCreated(savedInstanceState)
 
         playerView = video_view
+        configurePlayerOverlay()
 
-//        playbackStateListener = PlaybackStateListener()
         loadStep()
         addComment.setOnClickListener {
-            CameraService.takePicture(this) {
+            CameraService.takePicture(this) { intent, _ ->
                 startActivityForResult(
-                    it,
+                    intent,
                     CameraService.TAKE_PICTURE_REQUEST_CODE
                 )
             }
         }
+    }
+
+    private fun configurePlayerOverlay() {
+        val dismissOverlay = {
+            currentWindow = 0
+            playbackPosition = 0
+            playerView?.useController = true
+            player_overlay?.visibility = View.INVISIBLE
+        }
+
+        replay.setOnClickListener {
+            dismissOverlay()
+            initializePlayer()
+        }
+
+        previous.setOnClickListener {
+            dismissOverlay()
+            stepNumber--
+            initializePlayer()
+        }
+
+        next.setOnClickListener {
+            dismissOverlay()
+            stepNumber++
+            initializePlayer()
+        }
+
     }
 
     fun loadStep() {
@@ -138,9 +172,7 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
             player = SimpleExoPlayer.Builder(context!!).setTrackSelector(trackSelector).build()
         }
         playerView?.player = player
-//        TODO ver si tiene sentido
-//        val uri = Uri.parse(steps.get(stepNumber).videoUrl)
-        val uri = Uri.parse(getString(R.string.media_url_hls))
+        val uri = Uri.parse(recipe.steps[stepNumber].videoUrl)
         val mediaSource = buildMediaSource(uri)
 
         player?.let {
@@ -154,20 +186,46 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         if (playbackState == Player.STATE_ENDED) {
             playerView!!.useController = false
-            back!!.visibility = View.VISIBLE
-            black_screen!!.visibility = View.VISIBLE
-            next!!.visibility = View.VISIBLE
-            replay!!.visibility = View.VISIBLE
-            addStoryWrapper!!.visibility = View.VISIBLE
+            player_overlay?.visibility = View.VISIBLE
 
-            replay!!.setOnClickListener {
-                playerView?.useController = true
-                player?.seekToDefaultPosition()
+
+            if (recipe.stories.any { it.profileId == StateService.getCurrentProfile().id }) {
+                addStoryWrapper.visibility = View.GONE
+//            } else {
+//                addStoryWrapper.setOnClickListener {  }
             }
 
-            next!!.setOnClickListener { initializePlayer() }
+            previous.also {
+                if (stepNumber != 0) {
+                    enableButton(it)
+                } else {
+                    disableButton(it)
+                }
+            }
+
+            next.also {
+                if (stepNumber < recipe.steps.size - 1) {
+                    enableButton(it)
+                } else {
+                    disableButton(it)
+                }
+            }
         }
 
+    }
+
+    private fun disableButton(image: ImageView) {
+        val buttonDrawable = DrawableCompat.wrap(image.background)
+        DrawableCompat.setTint(buttonDrawable, Color.GRAY)
+        image.background = buttonDrawable
+        image.isClickable = false
+    }
+
+    private fun enableButton(image: ImageView) {
+        val buttonDrawable = DrawableCompat.wrap(image.background)
+        DrawableCompat.setTint(buttonDrawable, Color.WHITE)
+        image.background = buttonDrawable
+        image.isClickable = true
     }
 
     private fun buildMediaSource(uri: Uri): MediaSource {
@@ -190,7 +248,11 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
 
     companion object {
         @JvmStatic
-        fun newInstance(recipe: Recipe, commentFunction: ((String) -> Unit) -> Unit, stepNumber: Int = 0) =
+        fun newInstance(
+            recipe: Recipe,
+            commentFunction: ((String) -> Unit) -> Unit,
+            stepNumber: Int = 0
+        ) =
             StepsFragment(recipe, commentFunction, stepNumber).apply {
                 arguments = Bundle().apply {}
             }

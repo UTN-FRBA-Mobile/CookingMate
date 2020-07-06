@@ -2,6 +2,7 @@ package edu.utn.frba.cookingmate.services
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.net.Uri
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.firestore.FieldValue
@@ -22,14 +23,18 @@ class APIService {
         val profilesMap: MutableMap<String, Profile> = mutableMapOf()
 
         fun initialize(context: Context) {
-            firebaseAPP = FirebaseApp.initializeApp(
-                context,
-                FirebaseOptions.Builder()
-                    .setApplicationId("1:803809299345:android:ca5dae186a385dcd05a830")
-                    .setProjectId("cookingmate-d6d4b")
-                    .setStorageBucket("cookingmate-d6d4b.appspot.com")
-                    .build()
-            )
+            firebaseAPP = if (FirebaseApp.getApps(context).isEmpty()) {
+                FirebaseApp.initializeApp(
+                    context,
+                    FirebaseOptions.Builder()
+                        .setApplicationId("1:803809299345:android:ca5dae186a385dcd05a830")
+                        .setProjectId("cookingmate-d6d4b")
+                        .setStorageBucket("cookingmate-d6d4b.appspot.com")
+                        .build()
+                )
+            } else {
+                FirebaseApp.getInstance()
+            }
         }
 
         private fun getDB(): FirebaseFirestore {
@@ -85,15 +90,15 @@ class APIService {
                 }
         }
 
-        fun addStory(recipeId: String, profile: Profile, image: Bitmap, fn: () -> Unit) {
-            val baos = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
+        fun addStory(recipeId: String, profile: Profile, image: ByteArray, fn: () -> Unit) {
+//            val baos = ByteArrayOutputStream()
+//            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+//            val data = baos.toByteArray()
 
             getStorage()
                 .reference
                 .child("storiesImages/photo-${UUID.randomUUID()}.jpg")
-                .putBytes(data)
+                .putBytes(image)
                 .addOnSuccessListener { r ->
                     r.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
                         val newStory = hashMapOf(
@@ -109,7 +114,14 @@ class APIService {
                 }
         }
 
-        fun addComment(recipeId: String, profile: Profile, image: Bitmap, text: String, stepNumber: Int, fn: () -> Unit) {
+        fun addComment(
+            recipeId: String,
+            profile: Profile,
+            image: Bitmap,
+            text: String,
+            stepNumber: Int,
+            fn: () -> Unit
+        ) {
             val baos = ByteArrayOutputStream()
             image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
             val data = baos.toByteArray()
