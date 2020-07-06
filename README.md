@@ -9,7 +9,7 @@ Cooking mate es una aplicacion que te ayudara a aprender a cocinar y a hacer rec
 ### Feed principal
 Tenemos un feed principal donde vemos las recetas disponibles
 
-![Main feed](readme-images/1.png)
+![Main feed](readme-images/1.png | width=100)
 
 ### Ingredientes
 Tocando en **Ingredientes**, debajo de la imagen, podemos ver en detalle los ingredientes de cada receta.
