@@ -7,15 +7,20 @@
     android:gravity="center_horizontal"
     tools:context=".ui.steps.StepCommentFragment"
     android:weightSum="1"
-    android:background="#00FFFFFF">
+    android:background="@android:color/black"
+    android:alpha="0.6" >
 
     <EditText android:id="@+id/newComment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="44dp"
         android:layout_weight=".3"
+        android:textColor="#FFFFFF"
+        android:textColorHint="@color/colorPrimary"
+        android:background="#202020"
         android:inputType="textAutoCorrect"
-        android:hint="¿Qué cambiarías?" />
+        android:hint="@string/que_cambiarias"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,25 +28,27 @@
         android:orientation="horizontal"
         android:layout_weight=".1">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <Button
             android:id="@+id/addCommentButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginHorizontal="44dp"
-            android:layout_gravity="end"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:background="@drawable/ic_clear_orange_24dp" />
 
         <Space
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"/>
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <Button
             android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginHorizontal="44dp"
-            android:layout_gravity="end"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:background="@drawable/ic_check_orange_24dp"/>
 
     </LinearLayout>
 
