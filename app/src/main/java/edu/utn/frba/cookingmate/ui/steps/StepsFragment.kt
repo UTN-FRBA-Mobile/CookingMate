@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.exoplayer2.Player
@@ -26,6 +25,7 @@ import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.services.CameraService
 import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.fragment_steps.*
+import kotlinx.android.synthetic.main.fragment_steps.view.*
 
 class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) -> Unit, var stepNumber: Int) : Fragment(), Player.EventListener {
     val name = "StepsFragment"
@@ -123,6 +123,11 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
 
     override fun onStop() {
         super.onStop()
+        stopPlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         releasePlayer()
     }
 
@@ -142,18 +147,25 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
             it.playWhenReady = playWhenReady
             it.seekTo(currentWindow, playbackPosition)
             it.addListener(this)
-            it.prepare(ConcatenatingMediaSource(mediaSource), false, false)
+            it.prepare(mediaSource, false, false)
         }
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
         if (playbackState == Player.STATE_ENDED) {
-            //TODO solo lo pongo a modo de prueba, para mostrar las funcionalidades que queremos agregar en este punto
-            Toast.makeText(context!!, "TODO: Los botones son a modo ilustrativo", Toast.LENGTH_LONG).show()
-            playerView!!.hideController()
+            playerView!!.useController = false
+            back!!.visibility = View.VISIBLE
+            black_screen!!.visibility = View.VISIBLE
             next!!.visibility = View.VISIBLE
             replay!!.visibility = View.VISIBLE
-            story!!.visibility = View.VISIBLE
+            addStoryWrapper!!.visibility = View.VISIBLE
+
+            replay!!.setOnClickListener {
+                playerView?.useController = true
+                player?.seekToDefaultPosition()
+            }
+
+            next!!.setOnClickListener { initializePlayer() }
         }
 
     }
@@ -163,14 +175,17 @@ class StepsFragment(val recipe: Recipe, val commentFunction: ((String) -> Unit) 
         return HlsMediaSource.Factory(defaultDataSourceFactory).createMediaSource(uri)
     }
 
-    private fun releasePlayer() {
+    private fun stopPlayer() {
         player?.let {
             playbackPosition = it.currentPosition;
             currentWindow = it.currentWindowIndex;
             playWhenReady = it.playWhenReady;
-            it.release()
-            player == null
+            it.playWhenReady = false
         }
+    }
+
+    private fun releasePlayer() {
+        player?.release()
     }
 
     companion object {

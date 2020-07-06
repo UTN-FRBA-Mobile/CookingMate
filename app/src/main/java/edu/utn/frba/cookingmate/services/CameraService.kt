@@ -24,6 +24,7 @@ class CameraService {
                     } else {
                         Toast.makeText(
                             fragment.context,
+                            //TODO Remove hardcoded text
                             "Debe habilitar los permisos para utilizar la camara",
                             Toast.LENGTH_LONG
                         ).show()

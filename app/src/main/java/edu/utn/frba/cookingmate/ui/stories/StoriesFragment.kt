@@ -12,22 +12,22 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.FitCenter
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
-import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.services.APIService
 import kotlinx.android.synthetic.main.fragment_stories.*
 
-class StoriesFragment(private val recipe: Recipe, private val selectedProfileId: String) :
+class StoriesFragment(private val stories: List<Story>, private val selectedProfileId: String) :
     Fragment() {
     val name: String = "StoriesFragment"
     private var listener: OnFragmentInteractionListener? = null
     private val posXY = IntArray(2)
     private var currentStoryPosition =
-        recipe.stories.indexOfFirst { it.profileId == selectedProfileId }
+        stories.indexOfFirst { it.profileId == selectedProfileId }
 
     companion object {
         @JvmStatic
-        fun newInstance(recipe: Recipe, profileId: String) =
-            StoriesFragment(recipe, profileId)
+        fun newInstance(stories: List<Story>, profileId: String) =
+            StoriesFragment(stories, profileId)
     }
 
     override fun onCreateView(
@@ -56,7 +56,7 @@ class StoriesFragment(private val recipe: Recipe, private val selectedProfileId:
                 showStory()
             }
         } else {
-            if (currentStoryPosition < recipe.stories.size - 1) {
+            if (currentStoryPosition < stories.size - 1) {
                 currentStoryPosition++
                 showStory()
             } else {
@@ -68,7 +68,7 @@ class StoriesFragment(private val recipe: Recipe, private val selectedProfileId:
     }
 
     private fun showStory() {
-        val storyToShow = recipe.stories[currentStoryPosition]
+        val storyToShow = stories[currentStoryPosition]
         val profile = APIService.profilesMap[storyToShow.profileId]!!
 
         Glide.with(view)

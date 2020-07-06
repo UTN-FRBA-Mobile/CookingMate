@@ -12,39 +12,76 @@
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8">
+        >
 
-        <androidx.appcompat.widget.AppCompatButton
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/black_screen"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:background="#CC000000"/>
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start"
+            android:background="@drawable/exo_controls_previous"
+            android:visibility="invisible"
+            android:contentDescription="@string/description" />
+
+        <ImageView
             android:id="@+id/replay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:background="@drawable/ic_replay_orange_24dp"
-            android:visibility="invisible" />
+            android:layout_gravity="bottom|center"
+            android:background="@drawable/ic_baseline_replay_32"
+            android:visibility="invisible"
+            android:contentDescription="@string/description" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/story"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_linked_camera_orange_24dp"
-            android:visibility="invisible" />
+            android:layout_gravity="center_vertical|center"
+            android:visibility="invisible"
+            android:id="@+id/addStoryWrapper">
 
-        <androidx.appcompat.widget.AppCompatButton
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@drawable/ic_baseline_add_35"
+                android:contentDescription="@string/description" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:drawableTop="@drawable/add_story_shape"
+                android:fontFamily="@font/muli_light"
+                android:text="@string/add_story"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="12sp"
+                android:typeface="sans" />
+        </RelativeLayout>
+
+        <ImageView
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:background="@drawable/ic_skip_next_orange_24dp"
-            android:visibility="invisible" />
+            android:layout_gravity="bottom|end"
+            android:background="@drawable/exo_icon_next"
+            android:visibility="invisible"
+            android:contentDescription="@string/description" />
+
     </com.google.android.exoplayer2.ui.PlayerView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="0.2"
-        android:weightSum="1">
+        >
 
         <ImageView
             android:id="@+id/commentPicture"

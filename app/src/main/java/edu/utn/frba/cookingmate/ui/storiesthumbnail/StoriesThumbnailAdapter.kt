@@ -15,12 +15,12 @@ import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.story_thumbnail_fragment.view.*
 
 class StoriesThumbnailAdapter(
-    private val recipe: Recipe,
-    private val onClickViewRecipeStoriesListener: (Recipe, String) -> Unit
+    stories: List<Story>,
+    private val onClickViewRecipeStoriesListener: (List<Story>, String) -> Unit
 ) :
     RecyclerView.Adapter<StoriesThumbnailAdapter.MyViewHolder>() {
 
-    private lateinit var recipeViewModels: List<Story>
+    private var recipeViewModels: List<Story> = stories.sortedBy { it.profileId != StateService.getCurrentProfile().id }
 
     class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
@@ -30,9 +30,6 @@ class StoriesThumbnailAdapter(
     ): MyViewHolder {
         val view: View = LayoutInflater.from(parent.context)
             .inflate(R.layout.story_thumbnail_fragment, parent, false)
-
-        recipeViewModels =
-            recipe.stories.sortedBy { it.profileId != StateService.getCurrentProfile().id }
 
         return MyViewHolder(
             view
@@ -53,8 +50,8 @@ class StoriesThumbnailAdapter(
             .apply(requestOptions)
             .into(holder.view.thumbnailImage)
 
-        holder.view.setOnClickListener { onClickViewRecipeStoriesListener(recipe, profile.id) }
+        holder.view.setOnClickListener { onClickViewRecipeStoriesListener(recipeViewModels, profile.id) }
     }
 
-    override fun getItemCount() = recipe.stories.size
+    override fun getItemCount() = recipeViewModels.size
 }

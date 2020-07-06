@@ -11,6 +11,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.services.StateService
 import edu.utn.frba.cookingmate.ui.storiesthumbnail.StoriesThumbnailAdapter
 import edu.utn.frba.cookingmate.viewmodels.RecipeViewModel
@@ -84,10 +85,10 @@ class RecipesAdapter(
             layoutManager =
                 LinearLayoutManager(this.context, RecyclerView.HORIZONTAL, false)
             adapter = StoriesThumbnailAdapter(
-                recipeViewModel.recipe
-            ) { _recipe: Recipe, profileId: String ->
+                recipeViewModel.recipe.stories
+            ) { stories: List<Story>, profileId: String ->
                 listener!!.onViewRecipeStories(
-                    _recipe,
+                    stories,
                     profileId
                 )
             }

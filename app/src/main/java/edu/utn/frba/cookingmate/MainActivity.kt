@@ -2,8 +2,8 @@ package edu.utn.frba.cookingmate
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import edu.utn.frba.cookingmate.models.Comment
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.ui.main.MainFragment
 import edu.utn.frba.cookingmate.ui.steps.StepCommentFragment
@@ -21,11 +21,7 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
 
         APIService.initialize(this)
 
-        // TODO find better way to do this
-        try {
-            this.supportActionBar!!.hide()
-        } catch (e: NullPointerException) {
-        }
+        this.supportActionBar?.hide()
 
         setContentView(R.layout.main_activity)
 
@@ -48,11 +44,11 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
     private fun setCommentFragment(callback: (String) -> Unit) {
         val stepCommentFragment = StepCommentFragment { comment: String? ->
             comment?.let(callback)
-            supportFragmentManager.popBackStack()
+            supportFragmentManager.popBackStackImmediate()
         }
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, stepCommentFragment)
+            .replace(R.id.container, stepCommentFragment)
             .addToBackStack(stepCommentFragment.name)
             .commit()
 
@@ -62,17 +58,17 @@ class MainActivity : AppCompatActivity(), MainFragment.OnFragmentInteractionList
         stepsFragment = StepsFragment.newInstance(recipe, this::setCommentFragment)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, stepsFragment)
+            .replace(R.id.container, stepsFragment)
             .addToBackStack(stepsFragment.name)
             .commit()
 
     }
 
-    override fun onViewRecipeStories(recipe: Recipe, profileId: String) {
-        storiesFragment = StoriesFragment.newInstance(recipe, profileId)
+    override fun onViewRecipeStories(stories: List<Story>, profileId: String) {
+        storiesFragment = StoriesFragment.newInstance(stories, profileId)
 
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, storiesFragment)
+            .replace(R.id.container, storiesFragment)
             .addToBackStack(storiesFragment.name)
             .commit()
     }

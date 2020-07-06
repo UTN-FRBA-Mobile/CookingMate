@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.models.Recipe
+import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.services.CameraService
 import edu.utn.frba.cookingmate.services.StateService
@@ -112,6 +113,6 @@ class MainFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onViewRecipeSteps(recipe: Recipe)
-        fun onViewRecipeStories(recipe: Recipe, profileId: String)
+        fun onViewRecipeStories(stories: List<Story>, profileId: String)
     }
 }
