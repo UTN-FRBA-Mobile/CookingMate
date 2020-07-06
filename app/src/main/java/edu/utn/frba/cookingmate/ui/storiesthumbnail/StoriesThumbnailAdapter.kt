@@ -8,7 +8,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import edu.utn.frba.cookingmate.R
-import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.models.Story
 import edu.utn.frba.cookingmate.services.APIService
 import edu.utn.frba.cookingmate.services.StateService

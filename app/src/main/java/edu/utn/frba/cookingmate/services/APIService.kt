@@ -1,8 +1,6 @@
 package edu.utn.frba.cookingmate.services
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.net.Uri
 import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.firestore.FieldValue
@@ -14,7 +12,6 @@ import com.google.firebase.storage.ktx.storage
 import edu.utn.frba.cookingmate.models.Profile
 import edu.utn.frba.cookingmate.models.Recipe
 import edu.utn.frba.cookingmate.models.Step
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 class APIService {

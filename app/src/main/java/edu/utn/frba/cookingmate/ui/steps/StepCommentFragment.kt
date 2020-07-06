@@ -1,14 +1,9 @@
 package edu.utn.frba.cookingmate.ui.steps
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import edu.utn.frba.cookingmate.R
 import edu.utn.frba.cookingmate.extensions.hideKeyboard
