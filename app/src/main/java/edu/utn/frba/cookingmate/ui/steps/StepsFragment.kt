@@ -2,7 +2,6 @@ package edu.utn.frba.cookingmate.ui.steps
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -12,7 +11,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
@@ -28,12 +28,11 @@ import edu.utn.frba.cookingmate.services.CameraService
 import edu.utn.frba.cookingmate.services.StateService
 import kotlinx.android.synthetic.main.fragment_steps.*
 import kotlinx.android.synthetic.main.player_overlay.*
-import kotlinx.android.synthetic.main.player_overlay.addStoryWrapper
 
 class StepsFragment(
-    val recipe: Recipe,
+    private val recipe: Recipe,
     val commentFunction: ((String) -> Unit) -> Unit,
-    var stepNumber: Int
+    private var stepNumber: Int
 ) : Fragment(), Player.EventListener {
     val name = "StepsFragment"
     private var playWhenReady: Boolean = true
@@ -42,6 +41,7 @@ class StepsFragment(
     private var playerView: PlayerView? = null
     private var player: SimpleExoPlayer? = null
     private lateinit var stepsTitle: String
+    var currentUriCamera: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,11 +53,13 @@ class StepsFragment(
         super.onActivityCreated(savedInstanceState)
 
         playerView = video_view
+        playerView?.controllerAutoShow = false
         configurePlayerOverlay()
 
         loadStep()
         addComment.setOnClickListener {
-            CameraService.takePicture(this) { intent, _ ->
+            CameraService.takePicture(this) { intent, uri ->
+                currentUriCamera = uri
                 startActivityForResult(
                     intent,
                     CameraService.TAKE_PICTURE_REQUEST_CODE
@@ -74,6 +76,8 @@ class StepsFragment(
             player_overlay?.visibility = View.INVISIBLE
         }
 
+        addStoryWrapper.setOnClickListener { }
+
         replay.setOnClickListener {
             dismissOverlay()
             initializePlayer()
@@ -83,12 +87,14 @@ class StepsFragment(
             dismissOverlay()
             stepNumber--
             initializePlayer()
+            loadComments(recipe.steps[stepNumber])
         }
 
         next.setOnClickListener {
             dismissOverlay()
             stepNumber++
             initializePlayer()
+            loadComments(recipe.steps[stepNumber])
         }
 
     }
@@ -100,18 +106,18 @@ class StepsFragment(
     }
 
     fun loadComments(step: Step) {
-        val aComment = step.comments.getOrNull(0)
-        aComment?.let {
-            comment.text = it.text
-            Glide.with(context).load(it.imageLink).into(commentPicture)
-        } ?: run {
-            clearComments()
+        if (step.comments.isEmpty()) {
+            text_comment.text = getString(R.string.empty_comments_string)
+        } else {
+            text_comment.text = getString(R.string.comments_string)
         }
-    }
 
-    fun clearComments() {
-        comment.text = "No hay comentarios :("
-        commentPicture.setImageDrawable(null)
+        commentsRecycler.apply {
+            setHasFixedSize(false)
+            layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+            adapter = CommentsThumbnailAdapter(step.comments)
+            commentsRecycler.adapter?.notifyDataSetChanged()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -120,22 +126,20 @@ class StepsFragment(
                 if (resultCode == Activity.RESULT_OK) {
                     val profile = StateService.getCurrentProfile()
 
-                    val imageBitmap = data!!.extras.get("data") as Bitmap
+                    val inputData =
+                        context?.contentResolver?.openInputStream(currentUriCamera!!)?.readBytes()
 
                     commentFunction { comment ->
                         APIService.addComment(
                             recipe.id,
                             profile,
-                            imageBitmap,
+                            inputData!!,
                             comment,
                             stepNumber
                         ) {
-//                        APIService.getRecipe(MainFragment.recipeIdCamera!!) { updatedRecipe ->
-//                            recipes =
-//                                recipes.map { if (it.id == MainFragment.recipeIdCamera) updatedRecipe else it }
-//
-//                            updateRecipes()
-//                        }
+                            APIService.getSteps(recipe) { updatedRecipe ->
+                                loadComments(updatedRecipe.steps[stepNumber])
+                            }
                         }
                     }
                 }
@@ -191,8 +195,6 @@ class StepsFragment(
 
             if (recipe.stories.any { it.profileId == StateService.getCurrentProfile().id }) {
                 addStoryWrapper.visibility = View.GONE
-//            } else {
-//                addStoryWrapper.setOnClickListener {  }
             }
 
             previous.also {

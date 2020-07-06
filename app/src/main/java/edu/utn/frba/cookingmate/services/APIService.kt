@@ -91,10 +91,6 @@ class APIService {
         }
 
         fun addStory(recipeId: String, profile: Profile, image: ByteArray, fn: () -> Unit) {
-//            val baos = ByteArrayOutputStream()
-//            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-//            val data = baos.toByteArray()
-
             getStorage()
                 .reference
                 .child("storiesImages/photo-${UUID.randomUUID()}.jpg")
@@ -117,23 +113,18 @@ class APIService {
         fun addComment(
             recipeId: String,
             profile: Profile,
-            image: Bitmap,
+            image: ByteArray,
             text: String,
             stepNumber: Int,
             fn: () -> Unit
         ) {
-            val baos = ByteArrayOutputStream()
-            image.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-            val data = baos.toByteArray()
-
             getStorage()
                 .reference
                 .child("commentsImages/photo-${UUID.randomUUID()}.jpg")
-                .putBytes(data)
+                .putBytes(image)
                 .addOnSuccessListener { r ->
                     r.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
                         val newComment = hashMapOf(
-                            // TODO guarda mal el id
                             "authorId" to profile.id,
                             "imageLink" to uri.toString(),
                             "text" to text
