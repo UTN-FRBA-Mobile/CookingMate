@@ -12,4 +12,5 @@
     <string name="accept">Aceptar</string>
     <string name="comments_string">Comentarios</string>
     <string name="empty_comments_string">Aún no hay comentarios para mostrar!</string>
+    <string name="request_camera_permission">Debe habilitar los permisos para utilizar la camara</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.tbruyelle.rxpermissions2.RxPermissions
 import edu.utn.frba.cookingmate.BuildConfig
+import edu.utn.frba.cookingmate.R
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -31,8 +32,7 @@ class CameraService {
                     } else {
                         Toast.makeText(
                             fragment.context,
-                            //TODO Remove hardcoded text
-                            "Debe habilitar los permisos para utilizar la camara",
+                            fragment.getString(R.string.request_camera_permission),
                             Toast.LENGTH_LONG
                         ).show()
                     }
