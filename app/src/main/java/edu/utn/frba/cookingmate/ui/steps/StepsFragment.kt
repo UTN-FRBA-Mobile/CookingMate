@@ -62,7 +62,7 @@ class StepsFragment(
                 currentUriCamera = uri
                 startActivityForResult(
                     intent,
-                    CameraService.TAKE_PICTURE_REQUEST_CODE
+                    CameraService.TAKE_PICTURE_COMMENT_REQUEST_CODE
                 )
             }
         }
@@ -76,7 +76,14 @@ class StepsFragment(
             player_overlay?.visibility = View.INVISIBLE
         }
 
-        addStoryWrapper.setOnClickListener { }
+        addStoryWrapper.setOnClickListener {
+            CameraService.takePicture(this) { intent, uri ->
+            currentUriCamera = uri
+            startActivityForResult(
+                intent,
+                CameraService.TAKE_PICTURE_STORY_REQUEST_CODE
+            )
+        } }
 
         replay.setOnClickListener {
             dismissOverlay()
@@ -99,13 +106,13 @@ class StepsFragment(
 
     }
 
-    fun loadStep() {
+    private fun loadStep() {
         val step = recipe.steps[stepNumber]
         stepsTitle = step.description
         loadComments(step)
     }
 
-    fun loadComments(step: Step) {
+    private fun loadComments(step: Step) {
         if (step.comments.isEmpty()) {
             text_comment.text = getString(R.string.empty_comments_string)
         } else {
@@ -122,7 +129,7 @@ class StepsFragment(
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            CameraService.TAKE_PICTURE_REQUEST_CODE ->
+            CameraService.TAKE_PICTURE_COMMENT_REQUEST_CODE ->
                 if (resultCode == Activity.RESULT_OK) {
                     val profile = StateService.getCurrentProfile()
 
@@ -143,6 +150,20 @@ class StepsFragment(
                         }
                     }
                 }
+            CameraService.TAKE_PICTURE_STORY_REQUEST_CODE ->
+                if (resultCode == Activity.RESULT_OK) {
+                    val profile = StateService.getCurrentProfile()
+
+                    val inputData =
+                        context?.contentResolver?.openInputStream(currentUriCamera!!)?.readBytes()
+
+                    APIService.addStory(
+                        recipe.id,
+                        profile,
+                        inputData!!
+                    ) {}
+                }
+
         }
     }
 

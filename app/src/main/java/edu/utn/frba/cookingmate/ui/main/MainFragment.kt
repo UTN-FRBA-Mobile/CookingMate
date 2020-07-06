@@ -63,7 +63,7 @@ class MainFragment : Fragment() {
 
                 startActivityForResult(
                     intent,
-                    CameraService.TAKE_PICTURE_REQUEST_CODE
+                    CameraService.TAKE_PICTURE_STORY_REQUEST_CODE
                 )
             }
         }
@@ -77,7 +77,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            CameraService.TAKE_PICTURE_REQUEST_CODE ->
+            CameraService.TAKE_PICTURE_STORY_REQUEST_CODE ->
                 if (resultCode == Activity.RESULT_OK) {
                     val profile = StateService.getCurrentProfile()
 

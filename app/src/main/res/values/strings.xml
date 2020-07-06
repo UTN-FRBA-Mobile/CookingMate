@@ -5,11 +5,11 @@
     <string name="view_recipe">Ver receta</string>
     <string name="view_ingredients">Ingredientes</string>
     <string name="description">DESCRIPTION</string>
-    <string name="no_stories">Aun no hay historias para mostrar!</string>
+    <string name="no_stories">Aún no hay historias para mostrar!</string>
     <string name="add_story">Agregar historia</string>
     <string name="que_cambiarias">¿Qué cambiarías?</string>
     <string name="cancel">Cancelar</string>
     <string name="accept">Aceptar</string>
     <string name="comments_string">Comentarios</string>
-    <string name="empty_comments_string">No hay comentarios aún</string>
+    <string name="empty_comments_string">Aún no hay comentarios para mostrar!</string>
 </resources>

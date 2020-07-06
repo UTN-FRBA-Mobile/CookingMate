@@ -17,7 +17,8 @@ import java.util.*
 
 class CameraService {
     companion object {
-        const val TAKE_PICTURE_REQUEST_CODE: Int = 1998
+        const val TAKE_PICTURE_STORY_REQUEST_CODE: Int = 1998
+        const val TAKE_PICTURE_COMMENT_REQUEST_CODE: Int = 1999
 
         fun takePicture(fragment: Fragment, fn: (Intent, Uri) -> Unit) {
             val rxPermissions = RxPermissions(fragment)
